@@ -58,7 +58,7 @@ app.post("/game", (req, res) => {
   var { title, price, year } = req.body;
 
   if (isNaN(req.body.price || req.body.year)) {
-    response.sendStatus(400);
+    res.sendStatus(400);
   } else {
     DB.games.push({
       id: 2323,
