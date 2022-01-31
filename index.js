@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const { status } = require("express/lib/response");
+const { response } = require("express");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -48,6 +49,22 @@ app.get("/game/:id", (req, res) => {
     } else {
       res.sendStatus(404);
     }
+  }
+});
+
+//cadastro de dados
+
+app.post("/game", (req, res) => {
+  var { title, price, year } = req.body;
+
+  if (isNaN(req.body.price || req.body.year)) {
+    response.sendStatus(400);
+  } else {
+    DB.games.push({
+      id: 2323,
+      title: "top gear",
+      year: 1996,
+    });
   }
 });
 
