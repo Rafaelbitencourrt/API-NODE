@@ -67,6 +67,7 @@ app.post("/game", (req, res) => {
       year: 1996,
     });
   }
+  res.sendStatus(200);
 });
 
 app.listen(45678, () => {
