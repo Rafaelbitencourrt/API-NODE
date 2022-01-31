@@ -63,6 +63,7 @@ app.post("/game", (req, res) => {
     DB.games.push({
       id: 2323,
       title: "top gear",
+      price: 60,
       year: 1996,
     });
   }
