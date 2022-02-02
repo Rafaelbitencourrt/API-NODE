@@ -57,7 +57,7 @@ app.get("/game/:id", (req, res) => {
 app.post("/game", (req, res) => {
   var { title, price, year } = req.body;
 
-  if (isNaN(req.body.price || req.body.year)) {
+  if (isNaN(price || year)) {
     res.sendStatus(400);
   }
   if (title == undefined) {
@@ -103,6 +103,20 @@ app.put("/game/:id", (req, res) => {
 
     if (game != undefined) {
       var { title, price, year } = req.body;
+
+      if (title != undefined) {
+        game.title = title;
+      }
+
+      if (price != undefined) {
+        game.price = price;
+      }
+
+      if (year != undefined) {
+        game.year = year;
+      }
+
+      res.sendStatus(200);
     } else {
       res.sendStatus(404);
     }
