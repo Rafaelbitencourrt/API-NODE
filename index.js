@@ -59,6 +59,9 @@ app.post("/game", (req, res) => {
 
   if (isNaN(req.body.price || req.body.year)) {
     res.sendStatus(400);
+  }
+  if (title == undefined) {
+    res.sendStatus(400);
   } else {
     DB.games.push({
       id: 2323,
@@ -84,6 +87,24 @@ app.delete("/game/:id", (req, res) => {
     } else {
       DB.games.splice(index, 1);
       res.sendStatus(200);
+    }
+  }
+});
+
+//EDIÇÃO DE DADOS
+
+app.put("/game/:id", (req, res) => {
+  if (isNaN(req.params.id)) {
+    res.sendStatus(400);
+  } else {
+    var id = parseInt(req.params.id);
+
+    var game = DB.games.find((g) => g.id == id);
+
+    if (game != undefined) {
+      var { title, price, year } = req.body;
+    } else {
+      res.sendStatus(404);
     }
   }
 });
