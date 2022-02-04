@@ -32,7 +32,7 @@
         year: yearInput.value,
         price: priceInput.value,
       };
-      console.log(game);
+      axios.post("http://localhost:45678/game", game);
     }
 
     axios
