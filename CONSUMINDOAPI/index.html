@@ -35,13 +35,22 @@
       axios.post("http://localhost:45678/game", game);
     }
 
+    //requição para leitura de dados
     axios
       .get("http://localhost:45678/games")
       .then((response) => {
+        var games = response.data;
+        var list = document.getElementById("games");
+
+        games.forEach((game) => {
+          console.log(game);
+        });
         console.log(response);
       })
       .catch((error) => {
-        console.log(error);
+        var item = document.createElement("li");
+        item.innerHTML = games.title;
+        list.apendChild();
       });
   </script>
 </html>
