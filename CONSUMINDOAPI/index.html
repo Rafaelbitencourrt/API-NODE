@@ -44,6 +44,11 @@
         });
     }
 
+    function deleteGame(listItem) {
+      var id = listItem.getAttribute("data-id");
+      console.log(id);
+    }
+
     //requição para leitura de dados
     axios
       .get("http://localhost:45678/games")
@@ -60,6 +65,15 @@
           item.setAttribute("data-price", game.price);
 
           item.innerHTML = game.id + " - " + game.title + " - $ " + game.price;
+
+          var BtnDelete = document.createElement("button");
+          BtnDelete.innerHTML = "Deletar";
+          BtnDelete.addEventListener("click", function () {
+            deleteGame(item);
+          });
+
+          item.appendChild(BtnDelete);
+
           list.appendChild(item);
         });
       })
