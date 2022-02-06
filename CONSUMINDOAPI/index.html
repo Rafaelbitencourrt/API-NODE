@@ -32,7 +32,16 @@
         year: yearInput.value,
         price: priceInput.value,
       };
-      axios.post("http://localhost:45678/game", game);
+      axios
+        .post("http://localhost:45678/game", game)
+        .then((response) => {
+          if (response.status == 200) {
+            alert("Game Criado");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
 
     //requição para leitura de dados
@@ -44,7 +53,13 @@
 
         games.forEach((game) => {
           var item = document.createElement("li");
-          item.innerHTML = game.title;
+
+          item.setAttribute("data-id", game.id);
+          item.setAttribute("data-title", game.title);
+          item.setAttribute("data-year", game.year);
+          item.setAttribute("data-price", game.price);
+
+          item.innerHTML = game.id + " - " + game.title + " - $ " + game.price;
           list.appendChild(item);
         });
       })
