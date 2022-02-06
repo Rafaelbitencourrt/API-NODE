@@ -43,14 +43,13 @@
         var list = document.getElementById("games");
 
         games.forEach((game) => {
-          console.log(game);
+          var item = document.createElement("li");
+          item.innerHTML = game.title;
+          list.appendChild(item);
         });
-        console.log(response);
       })
       .catch((error) => {
-        var item = document.createElement("li");
-        item.innerHTML = games.title;
-        list.apendChild();
+        console.log(error);
       });
   </script>
 </html>
