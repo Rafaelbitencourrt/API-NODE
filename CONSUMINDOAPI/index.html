@@ -44,6 +44,8 @@
         });
     }
 
+    //Função para obter id do elemento
+
     function deleteGame(listItem) {
       var id = listItem.getAttribute("data-id");
       console.log(id);
@@ -58,6 +60,8 @@
 
         games.forEach((game) => {
           var item = document.createElement("li");
+
+          //present de atributo para poder trabalhar com os dados
 
           item.setAttribute("data-id", game.id);
           item.setAttribute("data-title", game.title);
