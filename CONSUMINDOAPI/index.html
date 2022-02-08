@@ -17,6 +17,17 @@
     <input type="number" name="price" id="price" placeholder="Price" />
     <br />
     <button type="button" onclick="createGame()">Criar game</button>
+    <hr />
+    <h4>Editar Game</h4>
+    <input type="text" name="idEdit" id="idEdit" placeholder="ID" readonly />
+    <br />
+    <input type="text" name="titleEdit" id="titleEdit" placeholder="Titulo" />
+    <br />
+    <input type="number" name="yearEdit" id="yearEdit" placeholder="Ano" />
+    <br />
+    <input type="number" name="priceEdit" id="priceEdit" placeholder="Preço" />
+    <br />
+    <button type="button" onclick="createGame()">Editar game</button>
   </head>
   <body></body>
 
@@ -44,7 +55,7 @@
         });
     }
 
-    //Função para obter id do elemento
+    //Função para obter id do elemento e excluir game
 
     function deleteGame(listItem) {
       var id = listItem.getAttribute("data-id");
@@ -56,6 +67,16 @@
         .catch((error) => {
           console.log(error);
         });
+    }
+
+    //Função editar game
+
+    function editGame(listItem) {
+      console.log(listItem);
+      var id = listItem.getAttribute("data-id");
+      var title = listItem.getAttribute("data-title");
+      var year = listItem.getAttribute("data-year");
+      var price = listItem.getAttribute("data-price");
     }
 
     //requição para leitura de dados
@@ -83,7 +104,14 @@
             deleteGame(item);
           });
 
+          var BtnEdit = document.createElement("button");
+          BtnEdit.innerHTML = "Editar";
+          BtnEdit.addEventListener("click", function () {
+            editGame(item);
+          });
+
           item.appendChild(BtnDelete);
+          item.appendChild(BtnEdit);
 
           list.appendChild(item);
         });
