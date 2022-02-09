@@ -82,10 +82,9 @@
       document.getElementById("priceEdit").value = price;
       idField.value = id;
     }
-    
-    function updateGame(){
-      
-      var idInput = document.getElementById("idEdit")
+
+    function updateGame() {
+      var idInput = document.getElementById("idEdit");
       var titleInput = document.getElementById("titleEdit");
       var yearInput = document.getElementById("yearEdit");
       var priceInput = document.getElementById("priceEdit");
@@ -95,11 +94,11 @@
         year: yearInput.value,
         price: priceInput.value,
       };
-      
+
       var id = idInput.value;
-      
+
       axios
-        .put("http://localhost:45678/game/"+id game)
+        .put("http://localhost:45678/game/" + id, game)
         .then((response) => {
           if (response.status == 200) {
             alert("Game Atualizado");
