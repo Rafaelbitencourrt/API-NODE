@@ -27,7 +27,7 @@
     <br />
     <input type="number" name="priceEdit" id="priceEdit" placeholder="Preço" />
     <br />
-    <button type="button" onclick="createGame()">Editar game</button>
+    <button type="button" onclick="updateGame()">Editar game</button>
   </head>
   <body></body>
 
@@ -72,11 +72,42 @@
     //Função editar game
 
     function editGame(listItem) {
-      console.log(listItem);
       var id = listItem.getAttribute("data-id");
       var title = listItem.getAttribute("data-title");
       var year = listItem.getAttribute("data-year");
       var price = listItem.getAttribute("data-price");
+      document.getElementById("idEdit").value = id;
+      document.getElementById("titleEdit").value = title;
+      document.getElementById("yearEdit").value = year;
+      document.getElementById("priceEdit").value = price;
+      idField.value = id;
+    }
+    
+    function updateGame(){
+      
+      var idInput = document.getElementById("idEdit")
+      var titleInput = document.getElementById("titleEdit");
+      var yearInput = document.getElementById("yearEdit");
+      var priceInput = document.getElementById("priceEdit");
+
+      var game = {
+        title: titleInput.value,
+        year: yearInput.value,
+        price: priceInput.value,
+      };
+      
+      var id = idInput.value;
+      
+      axios
+        .put("http://localhost:45678/game/"+id game)
+        .then((response) => {
+          if (response.status == 200) {
+            alert("Game Atualizado");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
 
     //requição para leitura de dados
