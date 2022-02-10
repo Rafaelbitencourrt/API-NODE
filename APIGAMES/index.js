@@ -29,6 +29,21 @@ var DB = {
       price: 13,
     },
   ],
+
+  users: [
+    {
+      id: 1,
+      name: "Rafael Bitencourt Oliveira",
+      email: "rafaelbitencourrt@gmail.com",
+      password: "28461973",
+    },
+    {
+      id: 2,
+      name: "Michelle Lopes",
+      email: "miichelle.lopes@gmail.com",
+      password: "297657",
+    },
+  ],
 };
 
 app.get("/games", (req, res) => {
@@ -121,6 +136,27 @@ app.put("/game/:id", (req, res) => {
     } else {
       res.sendStatus(404);
     }
+  }
+});
+
+app.post("/auth", (req, res) => {
+  var { email, password } = req.body;
+
+  if (email != undefined) {
+    var user = DB.users.find((u) => u.email == email);
+
+    if (user != undefined) {
+      if ((user.password = password)) {
+        res.status = 200;
+        res.json({ token: "TOKEN FALSO!" });
+      } else {
+        res.status = 401;
+        res.json({ err: "Credenciais inválidas!" });
+      }
+    }
+  } else {
+    res.status = 400;
+    res.json({ err: "E-mail inválido" });
   }
 });
 
