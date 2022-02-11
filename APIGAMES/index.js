@@ -11,6 +11,32 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+function auth(req, res, next) {
+  const authToken = req.headers["authorization"];
+
+  if (authToken != undefined) {
+    const bearer = authToken.split(" ");
+    var token = bearer[1];
+    jwt.verify(token, jwtSecret, (err, data) => {
+      if (err) {
+        res.status(401);
+        res.json({ err: "Token inválido!" });
+      } else {
+        req.token = token;
+        req.loggerUser = { id: data.id, email: data.email };
+        next();
+        console.log(data);
+      }
+    });
+  } else {
+    res.status(401);
+    res.json({ err: "token inválido" });
+  }
+
+  console.log(authToken);
+  next();
+}
+
 var DB = {
   games: [
     {
@@ -49,12 +75,12 @@ var DB = {
   ],
 };
 
-app.get("/games", (req, res) => {
+app.get("/games", auth, (req, res) => {
   res.statusCode = 200;
   res.json(DB.games);
 });
 
-app.get("/game/:id", (req, res) => {
+app.get("/game/:id", auth, (req, res) => {
   if (isNaN(req.params.id)) {
     res.sendStatus(400);
   } else {
@@ -73,7 +99,7 @@ app.get("/game/:id", (req, res) => {
 
 //cadastro de dados
 
-app.post("/game", (req, res) => {
+app.post("/game", auth, (req, res) => {
   var { title, price, year } = req.body;
 
   if (isNaN(price || year)) {
@@ -94,7 +120,7 @@ app.post("/game", (req, res) => {
 
 //DELETANDO DADOS
 
-app.delete("/game/:id", (req, res) => {
+app.delete("/game/:id", auth, (req, res) => {
   if (isNaN(req.params.id)) {
     res.sendStatus(400);
   } else {
@@ -112,7 +138,7 @@ app.delete("/game/:id", (req, res) => {
 
 //EDIÇÃO DE DADOS
 
-app.put("/game/:id", (req, res) => {
+app.put("/game/:id", auth, (req, res) => {
   if (isNaN(req.params.id)) {
     res.sendStatus(400);
   } else {
