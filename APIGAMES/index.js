@@ -2,6 +2,9 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const jwt = require("jsonwebtoken");
+
+const jwtSecret = "hsjhdfkfjhkjshdfkjsdhfk";
 
 app.use(cors());
 
@@ -146,7 +149,7 @@ app.post("/auth", (req, res) => {
     var user = DB.users.find((u) => u.email == email);
 
     if (user != undefined) {
-      if ((user.password = password)) {
+      if (user.password == password) {
         res.status(200);
         res.json({ token: "TOKEN FALSO!" });
       } else {
