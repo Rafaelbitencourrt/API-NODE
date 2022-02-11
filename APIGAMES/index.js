@@ -150,12 +150,29 @@ app.post("/auth", (req, res) => {
 
     if (user != undefined) {
       if (user.password == password) {
-        res.status(200);
-        res.json({ token: "TOKEN FALSO!" });
+        jwt.sign(
+          { id: user.id, email: user.email },
+          jwtSecret,
+          {
+            expiresIn: "48h",
+          },
+          (err, token) => {
+            if (err) {
+              res.status(400);
+              res.json({ err: "falha interna" });
+            } else {
+              res.status(200);
+              res.json({ token: token });
+            }
+          }
+        );
       } else {
         res.status(401);
         res.json({ err: "Credenciais inválidas!" });
       }
+    } else {
+      res.status(404);
+      res.json({ err: "O email enviado não existe na base de dados" });
     }
   } else {
     res.status(400);
