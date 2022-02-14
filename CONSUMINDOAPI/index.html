@@ -47,8 +47,8 @@
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script>
     function login() {
-      var emailField = document.getElementById(".email");
-      var passwordField = document.getElementById(".password");
+      var emailField = document.getElementById("email");
+      var passwordField = document.getElementById("password");
 
       var email = emailField.value;
       var password = passwordField.value;
@@ -59,12 +59,22 @@
           password,
         })
         .then((res) => {
+          console.log(res.data);
+          var token = res.data.token;
           alert("Seja bem vindo");
         })
         .catch((err) => {
           alert("Login Inválido");
         });
     }
+
+    var axiosConfig = {
+      headers: {
+        Authorization:
+          "Bearer " +
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJyYWZhZWxiaXRlbmNvdXJydEBnbWFpbC5jb20iLCJpYXQiOjE2NDQ4MzM4NTYsImV4cCI6MTY0NTAwNjY1Nn0.V7iB0jRXguECOGizNMrXqiS7Rc64jXwG5EOEfG4mAoI",
+      },
+    };
 
     function createGame() {
       var titleInput = document.getElementById("title");
