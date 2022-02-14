@@ -5,6 +5,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Loja de games</title>
+
+    <h2>Login</h2>
+
+    <input
+      type="text"
+      name="email"
+      id="email"
+      placeholder="usuario@email.com"
+    />
+    <br />
+    <input type="text" name="password" id="password" placeholder="**********" />
+    <button onclick="login()">Entrar</button>
+
     <hr />
     <h4>Lista de games</h4>
     <ul id="games"></ul>
@@ -33,6 +46,26 @@
 
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script>
+    function login() {
+      var emailField = document.getElementById(".email");
+      var passwordField = document.getElementById(".password");
+
+      var email = emailField.value;
+      var password = passwordField.value;
+
+      axios
+        .post("http://localhost:45678/auth", {
+          email,
+          password,
+        })
+        .then((res) => {
+          alert("Seja bem vindo");
+        })
+        .catch((err) => {
+          alert("Login Inválido");
+        });
+    }
+
     function createGame() {
       var titleInput = document.getElementById("title");
       var yearInput = document.getElementById("year");
