@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const connection = require("./DATABASE/Database");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
@@ -10,6 +11,17 @@ app.use(cors());
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+//Database
+
+connection
+  .authenticate()
+  .then(() => {
+    console.log("Banco de dados conectado");
+  })
+  .catch((msgErro) => {
+    console.log(msgErro);
+  });
 
 function auth(req, res, next) {
   const authToken = req.headers["authorization"];
