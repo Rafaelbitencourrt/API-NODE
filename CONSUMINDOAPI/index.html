@@ -156,36 +156,49 @@
     axios
       .get("http://localhost:45678/games", axiosConfig)
       .then((response) => {
+        //armazenando o array de games
         var games = response.data;
+
+        //buscando o item ul no html
         var list = document.getElementById("games");
 
+        //percorrendo todos os itens do array games
         games.forEach((game) => {
+          //criando um elemento li
           var item = document.createElement("li");
 
           //present de atributo para poder trabalhar com os dados
-
           item.setAttribute("data-id", game.id);
           item.setAttribute("data-title", game.title);
           item.setAttribute("data-year", game.year);
           item.setAttribute("data-price", game.price);
 
+          //inserindo os dados do game dentro do elemento form
           item.innerHTML = game.id + " - " + game.title + " - $ " + game.price;
 
+          //criando botão de deletar
           var BtnDelete = document.createElement("button");
           BtnDelete.innerHTML = "Deletar";
+
+          //adicionando chamada de função no clique com itens do game
           BtnDelete.addEventListener("click", function () {
             deleteGame(item);
           });
 
+          //criando botão de editar
           var BtnEdit = document.createElement("button");
           BtnEdit.innerHTML = "Editar";
+
+          //adicionando chamada de função no click com os dados do game
           BtnEdit.addEventListener("click", function () {
             editGame(item);
           });
 
+          //adicionando os botões dentro do item
           item.appendChild(BtnDelete);
           item.appendChild(BtnEdit);
 
+          //inserindo o elemento li dentro da lista (ul)
           list.appendChild(item);
         });
       })
