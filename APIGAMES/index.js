@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const connection = require("./DATABASE/Database");
+const connection = require("./database/Database");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
