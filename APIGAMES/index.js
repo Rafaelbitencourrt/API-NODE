@@ -7,6 +7,8 @@ const jwt = require("jsonwebtoken");
 
 const jwtSecret = "hsjhdfkfjhkjshdfkjsdhfk";
 
+const Game = require("./games/Games");
+
 app.use(cors());
 
 app.use(bodyParser.urlencoded({ extended: false }));
