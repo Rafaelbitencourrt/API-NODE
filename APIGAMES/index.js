@@ -85,25 +85,28 @@ app.get("/game/:id", auth, (req, res) => {
   }
 });
 
-//cadastro de dados
+//rota de cadastro de game
 
 app.post("/game", auth, (req, res) => {
   var { title, price, year } = req.body;
 
-  if (isNaN(price || year)) {
-    res.sendStatus(400);
-  }
-  if (title == undefined) {
+  //se o titulo for nulo ou vazio || ano ou preço não forem números
+  if (title == null || title == "" || isNaN(price || year)) {
     res.sendStatus(400);
   } else {
-    DB.games.push({
-      id: 2323,
-      title: "top gear",
-      price: 60,
-      year: 1996,
-    });
+    Game.create({
+      title: title,
+      price: price,
+      year: year,
+    })
+      .then((result) => {
+        res.sendStatus(201);
+      })
+      .catch((err) => {
+        res.sendStatus(500);
+        console.log(err);
+      });
   }
-  res.sendStatus(200);
 });
 
 //DELETANDO DADOS
