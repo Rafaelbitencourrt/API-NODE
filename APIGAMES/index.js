@@ -9,13 +9,14 @@ const jwtSecret = "hsjhdfkfjhkjshdfkjsdhfk";
 const Game = require("./database/Games");
 const User = require("./database/Users");
 
+//Usando cors para http request
 app.use(cors());
 
+//Configuração body parser
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-//Database
-
+//Conexão banco de dados
 connection
   .authenticate()
   .then(() => {
@@ -51,13 +52,24 @@ function auth(req, res, next) {
   next();
 }
 
+//Rota de listagem de games
 app.get("/games", auth, (req, res) => {
-  res.statusCode = 200;
-  res.json(DB.games);
+  Game.findAll({ raw: true })
+    .then((games) => {
+      res.statusCode = 200;
+      res.json(games);
+    })
+    .catch((err) => {
+      res.sendStatus(500);
+      console.log(err);
+    });
 });
+
+//Rota de listagem de um game
 
 app.get("/game/:id", auth, (req, res) => {
   if (isNaN(req.params.id)) {
+    // se o id não for número
     res.sendStatus(400);
   } else {
     var id = parseInt(req.params.id);
