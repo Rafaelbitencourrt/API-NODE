@@ -4,10 +4,10 @@ const connection = require("./database/Database");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
-
 const jwtSecret = "hsjhdfkfjhkjshdfkjsdhfk";
 
-const Game = require("./games/Games");
+const Game = require("./database/Games");
+const User = require("./database/Users");
 
 app.use(cors());
 
@@ -50,44 +50,6 @@ function auth(req, res, next) {
   console.log(authToken);
   next();
 }
-
-var DB = {
-  games: [
-    {
-      id: 23,
-      title: "Call of Dutty",
-      year: 2019,
-      price: 60,
-    },
-    {
-      id: 65,
-      title: "Sea of thieves",
-      year: 2018,
-      price: 45,
-    },
-    {
-      id: 2,
-      title: "God of war",
-      year: 2012,
-      price: 13,
-    },
-  ],
-
-  users: [
-    {
-      id: 1,
-      name: "Rafael Bitencourt Oliveira",
-      email: "rafaelbitencourrt@gmail.com",
-      password: "28461973",
-    },
-    {
-      id: 2,
-      name: "Michelle Lopes",
-      email: "miichelle.lopes@gmail.com",
-      password: "297657",
-    },
-  ],
-};
 
 app.get("/games", auth, (req, res) => {
   res.statusCode = 200;
