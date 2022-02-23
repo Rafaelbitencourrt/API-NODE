@@ -134,15 +134,38 @@ app.delete("/game/:id", auth, (req, res) => {
   }
 });
 
-//EDIÇÃO DE DADOS
+//Rota para edição de um game
 
 app.put("/game/:id", auth, (req, res) => {
   if (isNaN(req.params.id)) {
     res.sendStatus(400);
   } else {
     var id = parseInt(req.params.id);
+    var { title, year, price } = req.body;
 
-    var game = DB.games.find((g) => g.id == id);
+    if (title != undefined) {
+      Game.update({ title: title }, { where: { id: id } })
+        .then()
+        .catch((err) => {
+          res.sendStatus(500);
+        });
+    }
+
+    if (year != undefined) {
+      Game.update({ year: year }, { where: { id: id } })
+        .then()
+        .catch((err) => {
+          res.sendStatus(500);
+        });
+    }
+
+    if (price != undefined) {
+      Game.update({ price: price }, { where: { id: id } })
+        .then()
+        .catch((err) => {
+          res.sendStatus(500);
+        });
+    }
 
     if (game != undefined) {
       var { title, price, year } = req.body;
