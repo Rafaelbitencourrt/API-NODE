@@ -109,21 +109,28 @@ app.post("/game", auth, (req, res) => {
   }
 });
 
-//DELETANDO DADOS
+//Deletando game
 
 app.delete("/game/:id", auth, (req, res) => {
   if (isNaN(req.params.id)) {
+    // se o id não for um número
     res.sendStatus(400);
   } else {
-    var id = parseInt(req.params.id);
-    var index = DB.games.findIndex((g) => g.id == id);
+    //senão
 
-    if (index == -1) {
-      res.sendStatus(404);
-    } else {
-      DB.games.splice(index, 1);
-      res.sendStatus(200);
-    }
+    var id = parseInt(req.params.id);
+
+    Game.destroy({ where: { id: id } })
+      .then((result) => {
+        if (result == 0) {
+          res.sendStatus(404);
+        } else {
+          res.sendStatus(204);
+        }
+      })
+      .catch((err) => {
+        res.sendStatus(500);
+      });
   }
 });
 
