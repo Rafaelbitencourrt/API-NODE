@@ -152,19 +152,31 @@ app.put("/game/:id", auth, (req, res) => {
     }
 
     if (year != undefined) {
-      Game.update({ year: year }, { where: { id: id } })
-        .then()
-        .catch((err) => {
-          res.sendStatus(500);
-        });
+      //se o ano estiver preenchido
+      if (isNaN(year)) {
+        //se o ano não for número
+        res.sendStatus(400);
+      } else {
+        Game.update({ year: year }, { where: { id: id } })
+          .then()
+          .catch((err) => {
+            res.sendStatus(500);
+          });
+      }
     }
 
     if (price != undefined) {
-      Game.update({ price: price }, { where: { id: id } })
-        .then()
-        .catch((err) => {
-          res.sendStatus(500);
-        });
+      // se o preeço não for preenchido
+      if (isNaN(price)) {
+        //se o preço não for número
+        res.sendStatus(400);
+      } else {
+        Game.update({ price: price }, { where: { id: id } })
+          .then()
+          .catch((err) => {
+            res.sendStatus(500);
+          });
+      }
     }
 
     if (game != undefined) {
