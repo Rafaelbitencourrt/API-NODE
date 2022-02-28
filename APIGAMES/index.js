@@ -212,23 +212,9 @@ app.post("/auth", (req, res) => {
         if (user.password == password) {
           // se senhas coincidirem
 
-          jwt.sign({ id: user.id, email: user.email }, process.env.jwtSecret, {
-            expiresIn: "48h",
-          });
-        }
-      }
-    });
-    var user = DB.users.find((u) => u.email == email);
-
-    if (user != undefined) {
-      if (user.password == password) {
-        jwt.sign(
-          { id: user.id, email: user.email },
-          jwtSecret,
-          {
-            expiresIn: "48h",
-          },
-          (err, token) => {
+          jwt.sign({ id: user.id, email: user.email }, jwtSecret, {
+            expiresIn: "1h",
+          },(err, token) => {
             if (err) {
               res.status(400);
               res.json({ err: "falha interna" });
@@ -237,20 +223,21 @@ app.post("/auth", (req, res) => {
               res.json({ token: token });
             }
           }
-        );
-      } else {
+          )}
+      else {
         res.status(401);
         res.json({ err: "Credenciais inválidas!" });
       }
     } else {
       res.status(404);
       res.json({ err: "O email enviado não existe na base de dados" });
-    }
-  } else {
+    } else {
     res.status(400);
     res.json({ err: "E-mail inválido" });
   }
-});
+
+          
+  
 
 app.listen(45678, () => {
   console.log("API RODANDO");
