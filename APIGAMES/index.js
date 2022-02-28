@@ -179,6 +179,8 @@ app.put("/game/:id", auth, (req, res) => {
       }
     }
 
+    res.sendStatus(204);
+
     if (game != undefined) {
       var { title, price, year } = req.body;
 
