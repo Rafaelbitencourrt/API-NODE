@@ -47,8 +47,8 @@
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script>
     function login() {
-      var emailField = document.getElementById("email");
-      var passwordField = document.getElementById("password");
+      var emailField = document.getElementById("email"); // recebendo email digitado
+      var passwordField = document.getElementById("password"); // recebendo senha
 
       var email = emailField.value;
       var password = passwordField.value;
@@ -61,6 +61,7 @@
         .then((res) => {
           console.log(res.data);
           var token = res.data.token;
+          localStorage.setItem("token",token) // armazenando token 
           alert("Seja bem vindo");
         })
         .catch((err) => {
@@ -71,8 +72,8 @@
     var axiosConfig = {
       headers: {
         Authorization:
-          "Bearer " +
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJyYWZhZWxiaXRlbmNvdXJydEBnbWFpbC5jb20iLCJpYXQiOjE2NDQ5MzY0NzMsImV4cCI6MTY0NTEwOTI3M30.9CKrhq6hf3bZfYLo9vmBbIBr-j4zIh4JSyhMMD5xfBM",
+          "Bearer " + localStorage.getItem("token")
+          
       },
     };
 
