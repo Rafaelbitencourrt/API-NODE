@@ -180,33 +180,44 @@ app.put("/game/:id", auth, (req, res) => {
     }
 
     res.sendStatus(204);
-
-    if (game != undefined) {
-      var { title, price, year } = req.body;
-
-      if (title != undefined) {
-        game.title = title;
-      }
-
-      if (price != undefined) {
-        game.price = price;
-      }
-
-      if (year != undefined) {
-        game.year = year;
-      }
-
-      res.sendStatus(200);
-    } else {
-      res.sendStatus(404);
-    }
   }
 });
+
+// rota de cadastro de user
+app.post("/user", auth, (req, res) => {
+  const { name, email, password } = req.body;
+
+  User.create(
+    { name, email, password }
+      .then((result) => {
+        res.sendStatus(201);
+      })
+      .catch((err) => {
+        res.sendStatus(500);
+      })
+  );
+});
+
+// rota de autenticação
 
 app.post("/auth", (req, res) => {
   var { email, password } = req.body;
 
-  if (email != undefined) {
+  if (email != undefined && password != undefined) {
+    //se email e senha forem preenchidos
+
+    User.findOne({ where: { email: email } }).then((user) => {
+      if (user != undefined) {
+        // se o usuario for encontrado
+        if (user.password == password) {
+          // se senhas coincidirem
+
+          jwt.sign({ id: user.id, email: user.email }, process.env.jwtSecret, {
+            expiresIn: "48h",
+          });
+        }
+      }
+    });
     var user = DB.users.find((u) => u.email == email);
 
     if (user != undefined) {
