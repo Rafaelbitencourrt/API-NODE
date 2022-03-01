@@ -201,43 +201,42 @@ app.post("/user", auth, (req, res) => {
 // rota de autenticação
 
 app.post("/auth", (req, res) => {
-  var { email, password } = req.body;
-
+  const { email, password } = req.body;
   if (email != undefined && password != undefined) {
-    //se email e senha forem preenchidos
+    // se email e senha forem preenchidos
 
     User.findOne({ where: { email: email } }).then((user) => {
       if (user != undefined) {
         // se o usuario for encontrado
         if (user.password == password) {
-          // se senhas coincidirem
-
-          jwt.sign({ id: user.id, email: user.email }, jwtSecret, {
-            expiresIn: "1h",
-          },(err, token) => {
-            if (err) {
-              res.status(400);
-              res.json({ err: "falha interna" });
-            } else {
-              res.status(200);
-              res.json({ token: token });
+          //se senhas forem iguais
+          jwt.sign(
+            { id: user.id, email: email },
+            jwtSecret,
+            {
+              expiresIn: "1h",
+            },
+            (err, token) => {
+              if (err) {
+                res.status(400);
+                res.json({ err: "falha interna" });
+              } else {
+                res.status(200);
+                res.json({ token: token });
+              }
             }
-          }
-          )}
-      else {
-        res.status(401);
-        res.json({ err: "Credenciais inválidas!" });
+          );
+        } else {
+          res.status(401);
+          res.json({ err: "credenciais invalidas!" });
+        }
       }
-    } else {
-      res.status(404);
-      res.json({ err: "O email enviado não existe na base de dados" });
-    } else {
-    res.status(400);
-    res.json({ err: "E-mail inválido" });
+    });
+  } else {
+    res.status(404);
+    res.json({ err: "email ou senha invalidos" });
   }
-
-          
-  
+});
 
 app.listen(45678, () => {
   console.log("API RODANDO");
