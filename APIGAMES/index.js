@@ -26,6 +26,8 @@ connection
     console.log(msgErro);
   });
 
+//rota de autenticação
+
 function auth(req, res, next) {
   const authToken = req.headers["authorization"];
 
@@ -67,7 +69,7 @@ app.get("/games", auth, (req, res) => {
 
 //Rota de listagem de um game
 
-app.get("/game/:id", auth, (req, res) => {
+/* app.get("/game/:id", auth, (req, res) => {
   if (isNaN(req.params.id)) {
     // se o id não for número
     res.sendStatus(400);
@@ -84,7 +86,7 @@ app.get("/game/:id", auth, (req, res) => {
     }
   }
 });
-
+ */
 //rota de cadastro de game
 
 app.post("/game", auth, (req, res) => {
