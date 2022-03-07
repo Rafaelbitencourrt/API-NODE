@@ -26,6 +26,26 @@ connection
     console.log(msgErro);
   });
 
+// rota raiz
+
+app.get("/", (req, res) => {
+  let HATEOAS = [
+    {
+      href: "http://localhost:45678/auth",
+      rel: "login",
+      body: {
+        email: "rafaelbitencourtn12@gmail.com",
+        password: "123456",
+      },
+    },
+  ];
+  res.statusCode = 200;
+  res.json({
+    msg: "Para usar API você precisa estar autentificado.",
+    _links: HATEOAS,
+  });
+});
+
 //rota de autenticação
 
 function auth(req, res, next) {
@@ -69,24 +89,63 @@ app.get("/games", auth, (req, res) => {
 
 //Rota de listagem de um game
 
-/* app.get("/game/:id", auth, (req, res) => {
+app.get("/game/:id", auth, (req, res) => {
   if (isNaN(req.params.id)) {
     // se o id não for número
     res.sendStatus(400);
   } else {
     var id = parseInt(req.params.id);
 
-    var game = DB.games.find((g) => g.id == id);
+    let HATEOAS = [
+      {
+        href: `http://localhost:45678/game/${id}`,
+        method: "DELETE",
+        rel: "delete_game",
+      },
+      {
+        href: `http://localhost:45678/game/${id}`,
+        method: "PUT",
+        rel: "edit_game",
+      },
+      {
+        href: `http://localhost:45678/game`,
+        method: "GET",
+        rel: "get_game",
+      },
+      {
+        href: `http://localhost:45678/game`,
+        method: "POST",
+        rel: "new_game",
+        params: {
+          title: "Game",
+          year: "2010",
+          price: "100",
+        },
+      },
+      {
+        href: `http://localhost:45678/games`,
+        method: "GET",
+        rel: "get_all_games",
+      },
+    ];
 
-    if (game != undefined) {
-      res.statusCode = 200;
-      res.json(game);
-    } else {
-      res.sendStatus(404);
-    }
+    Game.findOne({ where: { id: id } })
+      .then((game) => {
+        if (game != undefined) {
+          // se o game for encontrado
+          res.statusCode = 200;
+          res.json({ game, _links: HATEOAS });
+        } else {
+          res.sendStatus(404);
+        }
+      })
+      .catch((err) => {
+        res.sendStatus(500);
+        console.log(err);
+      });
   }
 });
- */
+
 //rota de cadastro de game
 
 app.post("/game", auth, (req, res) => {
@@ -223,6 +282,13 @@ app.post("/auth", (req, res) => {
                 res.status(400);
                 res.json({ err: "falha interna" });
               } else {
+                let HATEOAS = [
+                  {
+                    href: `http://localhost:45678/games`,
+                    method: "GET",
+                    rel: "gte_all_games",
+                  },
+                ];
                 res.status(200);
                 res.json({ token: token });
               }
