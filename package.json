@@ -1,0 +1,29 @@
+{
+  "name": "apigames",
+  "version": "1.0.0",
+  "description": "api de jogos",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rafaelbitencourrt/API-NODE.git"
+  },
+  "keywords": [
+    "'api'",
+    "'nodejs'"
+  ],
+  "author": "Rafael Bitencourt",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Rafaelbitencourrt/API-NODE/issues"
+  },
+  "homepage": "https://github.com/Rafaelbitencourrt/API-NODE#readme",
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "express": "^4.17.3",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.17.0"
+  }
+}
