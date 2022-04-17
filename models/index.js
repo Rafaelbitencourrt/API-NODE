@@ -23,3 +23,8 @@ sequelize
   .catch(() => {
     console.log("Error" + err);
   });
+
+const db = {};
+
+db.Sequelize = Sequelize;
+db.sequelize = sequelize;
